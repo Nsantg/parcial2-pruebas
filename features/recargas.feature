@@ -1,4 +1,3 @@
-# language: es
 Feature: Módulo de recargas de celular RecargaYa
   Como usuario del sistema RecargaYa
   Quiero recargar saldo en mi celular
