@@ -44,3 +44,19 @@ class TestBonificacion10Pct:
     def test_monto_justo_antes_de_25_pct_tiene_bonificacion_10(self):
         resultado = procesar_recarga(monto=29999, plan="normal")
         assert resultado["bonificacion_pct"] == 10.0
+
+
+class TestBonificacion25Pct:
+    def test_monto_en_limite_30000_tiene_bonificacion_25(self):
+        resultado = procesar_recarga(monto=30000, plan="normal")
+        assert resultado["bonificacion_pct"] == 25.0
+
+    def test_monto_maximo_tiene_bonificacion_25(self):
+        resultado = procesar_recarga(monto=50000, plan="normal")
+        assert resultado["bonificacion_pct"] == 25.0
+
+    def test_bonificacion_25_reemplaza_al_10(self):
+        resultado_30000 = procesar_recarga(monto=30000, plan="normal")
+        resultado_29999 = procesar_recarga(monto=29999, plan="normal")
+        assert resultado_30000["bonificacion_pct"] == 25.0
+        assert resultado_29999["bonificacion_pct"] == 10.0
