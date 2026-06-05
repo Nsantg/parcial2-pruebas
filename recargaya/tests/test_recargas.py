@@ -26,3 +26,21 @@ class TestValidacionMonto:
     def test_monto_negativo_es_rechazado(self):
         resultado = procesar_recarga(monto=-500, plan="normal")
         assert resultado["estado"] == "rechazada"
+
+
+class TestBonificacion10Pct:
+    def test_monto_justo_antes_del_limite_no_tiene_bonificacion(self):
+        resultado = procesar_recarga(monto=9999, plan="normal")
+        assert resultado["bonificacion_pct"] == 0.0
+
+    def test_monto_en_limite_10000_tiene_bonificacion_10(self):
+        resultado = procesar_recarga(monto=10000, plan="normal")
+        assert resultado["bonificacion_pct"] == 10.0
+
+    def test_monto_intermedio_tiene_bonificacion_10(self):
+        resultado = procesar_recarga(monto=20000, plan="normal")
+        assert resultado["bonificacion_pct"] == 10.0
+
+    def test_monto_justo_antes_de_25_pct_tiene_bonificacion_10(self):
+        resultado = procesar_recarga(monto=29999, plan="normal")
+        assert resultado["bonificacion_pct"] == 10.0
