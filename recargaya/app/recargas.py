@@ -3,6 +3,7 @@ MONTO_MAXIMO = 50000
 
 # (umbral, bonificacion_pct) — ordenados de mayor a menor
 TABLA_BONIFICACIONES = [
+    (30000, 25.0),
     (10000, 10.0),
 ]
 
