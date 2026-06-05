@@ -19,13 +19,19 @@ def _calcular_bonificacion_base(monto: float) -> float:
     )
 
 
+BONUS_PREMIUM = 5.0
+
+
+def _calcular_bonus_plan(bonificacion_base: float, plan: str) -> float:
+    if plan == "premium" and bonificacion_base > 0:
+        return bonificacion_base + BONUS_PREMIUM
+    return bonificacion_base
+
+
 def procesar_recarga(monto: float, plan: str) -> dict:
     if not _monto_valido(monto):
         return {"monto": monto, "bonificacion_pct": 0.0, "estado": "rechazada"}
 
-    bonificacion = _calcular_bonificacion_base(monto)
-
-    if plan == "premium" and bonificacion > 0:
-        bonificacion += 5.0
+    bonificacion = _calcular_bonus_plan(_calcular_bonificacion_base(monto), plan)
 
     return {"monto": monto, "bonificacion_pct": bonificacion, "estado": "aceptada"}
