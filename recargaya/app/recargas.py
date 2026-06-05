@@ -6,4 +6,8 @@ def procesar_recarga(monto: float, plan: str) -> dict:
     if monto < MONTO_MINIMO or monto > MONTO_MAXIMO:
         return {"monto": monto, "bonificacion_pct": 0.0, "estado": "rechazada"}
 
-    return {"monto": monto, "bonificacion_pct": 0.0, "estado": "aceptada"}
+    bonificacion = 0.0
+    if monto >= 10000:
+        bonificacion = 10.0
+
+    return {"monto": monto, "bonificacion_pct": bonificacion, "estado": "aceptada"}
