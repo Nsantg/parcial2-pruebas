@@ -25,4 +25,7 @@ def procesar_recarga(monto: float, plan: str) -> dict:
 
     bonificacion = _calcular_bonificacion_base(monto)
 
+    if plan == "premium" and bonificacion > 0:
+        bonificacion += 5.0
+
     return {"monto": monto, "bonificacion_pct": bonificacion, "estado": "aceptada"}
