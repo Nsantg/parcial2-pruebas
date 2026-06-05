@@ -60,3 +60,33 @@ class TestBonificacion25Pct:
         resultado_29999 = procesar_recarga(monto=29999, plan="normal")
         assert resultado_30000["bonificacion_pct"] == 25.0
         assert resultado_29999["bonificacion_pct"] == 10.0
+
+
+class TestBonusPremium:
+    def test_premium_con_bonificacion_10_recibe_5_adicional(self):
+        resultado = procesar_recarga(monto=10000, plan="premium")
+        assert resultado["bonificacion_pct"] == 15.0
+
+    def test_premium_con_bonificacion_25_recibe_5_adicional(self):
+        resultado = procesar_recarga(monto=30000, plan="premium")
+        assert resultado["bonificacion_pct"] == 30.0
+
+    def test_premium_sin_bonificacion_base_no_recibe_bonus(self):
+        resultado = procesar_recarga(monto=5000, plan="premium")
+        assert resultado["bonificacion_pct"] == 0.0
+
+    def test_premium_en_limite_inferior_sin_bonificacion(self):
+        resultado = procesar_recarga(monto=1000, plan="premium")
+        assert resultado["bonificacion_pct"] == 0.0
+
+    def test_premium_justo_antes_del_10_sin_bonificacion(self):
+        resultado = procesar_recarga(monto=9999, plan="premium")
+        assert resultado["bonificacion_pct"] == 0.0
+
+    def test_premium_en_limite_maximo_recibe_30(self):
+        resultado = procesar_recarga(monto=50000, plan="premium")
+        assert resultado["bonificacion_pct"] == 30.0
+
+    def test_plan_normal_no_recibe_bonus_premium(self):
+        resultado = procesar_recarga(monto=10000, plan="normal")
+        assert resultado["bonificacion_pct"] == 10.0
